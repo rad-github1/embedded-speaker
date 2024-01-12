@@ -1,0 +1,4 @@
+# IGNORE ALL OBJ AND BIN FILES
+
+*.bin
+*.o
