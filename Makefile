@@ -1,6 +1,13 @@
-default:
-			avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -c -o speaker.o speaker.c
+CC   = avr-gcc
+MMCU = atmega328p
+SRC  = clock
 
-			avr-gcc -o speaker.bin speaker.o
-			avr-objcopy -O ihex -R .eeprom speaker.bin speaker.hex
-			sudo avrdude -F -V -c arduino -p ATMEGA328P -P /dev/ttyACM0 -b 115200 -U flash:w:speaker.hex
+default:
+			$(CC) -Os -DF_CPU=16000000UL -mmcu=$(MMCU) -c -o $(SRC).o $(SRC).c
+
+			$(CC) -o $(SRC).bin $(SRC).o
+			avr-objcopy -O ihex -R .eeprom $(SRC).bin $(SRC).hex
+			sudo avrdude -F -V -c arduino -p $(MMCU) -P /dev/ttyACM0 -b 115200 -U flash:w:$(SRC).hex
+
+clean:
+	rm -f $(SRC).o $(SRC).hex $(SRC).bin
